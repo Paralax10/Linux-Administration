@@ -146,8 +146,9 @@ def home():
                     application and server restarts.
                 </p>
 
-                <p>
-                    Reboot test: Pending.
+                <p>Reboot test: Successful. The application restarted
+    automatically after the virtual machine reboot,
+    and the visitor counter retained its previous value.
                 </p>
             </section>
 

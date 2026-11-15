@@ -1,0 +1,1 @@
+* * * * * /opt/viikko2/week3/report.sh >> /tmp/viikko3-cron.log 2>&1

@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 3 - Documentation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #151521;
+            color: #eeeeee;
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+
+        main {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        h1, h2 {
+            color: #b69cff;
+        }
+
+        section {
+            background: #232334;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        code {
+            background: #34344a;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+
+        pre {
+            background: #11111c;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        a {
+            color: #b69cff;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: #aaaaaa;
+        }
+    </style>
+</head>
+
+<body>
+<main>
+    <h1>Week 3 - Linux Server Monitoring</h1>
+
+    <section>
+        <h2>Linux Commands</h2>
+
+        <p><strong>date:</strong> Displays the current date, time and timezone.</p>
+        <pre>date '+%Y-%m-%d %H:%M:%S %Z (%z)'</pre>
+
+        <p><strong>uptime:</strong> Displays how long the server has been running.</p>
+        <pre>uptime -p</pre>
+
+        <p><strong>df:</strong> Displays filesystem disk usage.</p>
+        <pre>df -h /</pre>
+
+        <p><strong>free:</strong> Displays total and available memory.</p>
+        <pre>free -h</pre>
+
+        <p><strong>Piping example:</strong> This command extracts the root
+        filesystem's disk usage percentage.</p>
+        <pre>df -P / | awk 'NR==2 {print $5}'</pre>
+
+        <p>The pipe sends the output of <code>df</code> to
+        <code>awk</code>, which extracts the fifth column.</p>
+    </section>
+
+    <section>
+        <h2>How the Bash Script Works</h2>
+
+        <p>The Bash script collects system information using Linux
+        commands and command substitution. The results are stored
+        in variables and then inserted into an HTML document.</p>
+
+        <p>The script defines a function called
+        <code>get_disk_status</code>, which checks the root
+        filesystem's disk usage percentage.</p>
+
+        <p>If disk usage is below 80%, the status is OK.
+        If usage is 80% or higher, the status is WARNING.</p>
+
+        <p>The generated HTML report is saved to
+        <code>/var/www/html/viikko3/index.html</code>.</p>
+    </section>
+
+    <section>
+        <h2>Automatic Updates</h2>
+
+        <p>The report is automatically regenerated once every minute
+        using cron.</p>
+
+        <pre>* * * * * /bin/bash /opt/viikko2/week3/report.sh >> /tmp/viikko3-cron.log 2>&1</pre>
+
+        <p>Cron runs the script using Bash. The generated report
+        replaces the previous report, so the website always
+        displays the latest collected information.</p>
+
+        <p>The cron service is enabled to start automatically
+        when the virtual machine reboots.</p>
+    </section>
+
+    <section>
+        <h2>Testing Results</h2>
+
+        <h3>Disk Space Status Tests</h3>
+
+        <pre>
+50% usage:  OK
+80% usage:  WARNING
+90% usage:  WARNING
+        </pre>
+
+        <p>All three tests produced the expected results.</p>
+
+        <h3>Automatic Update Test</h3>
+
+        <p>The cron schedule was tested by checking the report's
+        generation time and reviewing its log output. Multiple
+        automatic executions completed successfully, and the
+        generation time changed as expected.</p>
+
+        <h3>Reboot Test</h3>
+
+        <p>VM reboot verification is pending.</p>
+    </section>
+
+    <section>
+        <h2>What I Learned</h2>
+
+        <p>One issue I encountered was that the script produced
+        errors when executed through cron because it was being
+        interpreted using the wrong shell. I solved this by
+        explicitly specifying Bash in the cron command.</p>
+
+        <p>This helped me understand why specifying the correct
+        interpreter is important when running scripts
+        automatically.</p>
+    </section>
+
+    <section>
+        <h2>Source Code</h2>
+
+        <p>The Bash script and cron configuration are available
+        in my GitHub repository:</p>
+
+        <p>
+            <a href="https://github.com/Paralax10/Linux-Administration">
+                GitHub - Linux Administration
+            </a>
+        </p>
+    </section>
+
+    <footer>
+        <p><a href="/viikko3/">Back to the server status report</a></p>
+        <p>Linux Administration - Week 3</p>
+    </footer>
+</main>
+</body>
+</html>

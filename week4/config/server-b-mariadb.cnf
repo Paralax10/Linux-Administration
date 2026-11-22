@@ -1,0 +1,4 @@
+[mariadb]
+server_id = 2
+read_only = ON
+bind_address = 127.0.0.1

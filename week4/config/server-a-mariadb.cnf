@@ -1,0 +1,7 @@
+[mariadb]
+server_id = 1
+log_bin
+binlog_format = ROW
+
+# Set this to Server A's private network address on the actual server.
+# bind_address = SERVER_A_PRIVATE_IP
